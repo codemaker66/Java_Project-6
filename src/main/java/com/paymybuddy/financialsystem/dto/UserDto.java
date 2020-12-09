@@ -1,36 +1,21 @@
-package com.paymybuddy.financialsystem.model;
+package com.paymybuddy.financialsystem.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Length;
 
-@Entity
-@Table(name = "users")
-public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonIgnore
-	private int id;
-	@Column(name = "first_name")
+public class UserDto {
+
+	@Length(min = 1, message = "firstName must have at least one character")
 	private String firstName;
-	@Column(name = "last_name")
+	@Length(min = 1, message = "lastName must have at least one character")
 	private String lastName;
+	@Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "email field cannot be empty")
+	@Email(message = "email must be a valid email")
 	private String email;
-	@JsonIgnore
+	@Length(min = 8, message = "password must have at least eight characters")
 	private String password;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getFirstName() {
 		return firstName;
