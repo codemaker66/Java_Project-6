@@ -4,10 +4,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.paymybuddy.financialsystem.model.BankAccount;
+import com.paymybuddy.financialsystem.entity.BankAccount;
 
+@Repository
 public interface BankAccountRepository extends CrudRepository<BankAccount, Integer> {
 
 	/**
@@ -18,10 +20,10 @@ public interface BankAccountRepository extends CrudRepository<BankAccount, Integ
 	@Modifying
 	@Transactional
 	@Query(value = "INSERT INTO bank_account (user_id, available_balance) VALUES (:id, 0)", nativeQuery = true)
-	void addBankAccount(@Param("id") int id);
+	void createABankAccount(@Param("id") int id);
 
 	/**
-	 * This method retrieve the available balance of a user from the database.
+	 * This method retrieve the available balance of the user bank account from the database.
 	 * 
 	 * @param id represent the id of the user.
 	 * @return an object of type BankAccount.
@@ -37,6 +39,6 @@ public interface BankAccountRepository extends CrudRepository<BankAccount, Integ
 	 */
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE bank_account SET available_balance = :newBalance WHERE bank_account.user_id = :id", nativeQuery = true)
-	void addMoney(@Param("id") int id, @Param("newBalance") double newBalance);
+	@Query(value = "UPDATE bank_account SET available_balance = ROUND(:newBalance, 2) WHERE bank_account.user_id = :id", nativeQuery = true)
+	void updateTheBankAccountBalance(@Param("id") int id, @Param("newBalance") double newBalance);
 }

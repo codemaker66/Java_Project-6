@@ -4,55 +4,55 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.financialsystem.dto.BankAccountDto;
-import com.paymybuddy.financialsystem.model.BankAccount;
-import com.paymybuddy.financialsystem.model.User;
+import com.paymybuddy.financialsystem.entity.BankAccount;
+import com.paymybuddy.financialsystem.entity.User;
 import com.paymybuddy.financialsystem.repository.BankAccountRepository;
-import com.paymybuddy.financialsystem.repository.UserRepository;
 
 @Service
 public class BankAccountService {
 
 	@Autowired
 	private BankAccountRepository bankAccountRepository;
-	@Autowired
-	private UserRepository userRepository;
 
 	/**
 	 * This method call the bankAccountRepository to retrieve the available balance from the user bank account.
 	 * 
-	 * @param email represent the email of the user.
+	 * @param user is an object of type User.
 	 * @return an object of type BankAccount.
 	 */
-	public BankAccount findAvailableBalance(String email) {
+	public BankAccount findAvailableBalance(User user) {
 
-		if (userRepository.retrieveUserByEmail(email) != null) {
-
-			User user = userRepository.retrieveUserByEmail(email);
-
-			BankAccount bankAccount = bankAccountRepository.retrieveAvailableBalance(user.getId());
-
-			return bankAccount;
-
-		} else {
-			return null;
-		}
+		return bankAccountRepository.retrieveAvailableBalance(user.getId());
 
 	}
 
 	/**
 	 * This method call the bankAccountRepository to add money to the user bank account.
 	 * 
-	 * @param bankAccountDto represent an object of type BankAccountDto.
+	 * @param user is an object of type User.
+	 * @param bankAccountDto is an object of type BankAccountDto.
+	 */
+	public void addMoney(User user, BankAccountDto bankAccountDto) {
+
+		BankAccount bankAccount = bankAccountRepository.retrieveAvailableBalance(user.getId());
+
+		bankAccountRepository.updateTheBankAccountBalance(user.getId(), bankAccount.getAvailableBalance() + bankAccountDto.getAmount());
+
+	}
+
+	/**
+	 * This method call the bankAccountRepository to retrieve an amount of money from the user bank account.
+	 * 
+	 * @param user is an object of type User.
+	 * @param bankAccountDto is an object of type BankAccountDto.
 	 * @return true if the process was successful.
 	 */
-	public boolean addMoney(BankAccountDto bankAccountDto) {
-		
-		User user = userRepository.retrieveUserByEmail(bankAccountDto.getUserEmail());
+	public boolean getMoney(User user, BankAccountDto bankAccountDto) {
 
-		if (user != null) {
-			BankAccount newBankAccount = bankAccountRepository.retrieveAvailableBalance(user.getId());
+		BankAccount bankAccount = bankAccountRepository.retrieveAvailableBalance(user.getId());
 
-			bankAccountRepository.addMoney(user.getId(), newBankAccount.getAvailableBalance() + bankAccountDto.getAmount());
+		if (bankAccount.getAvailableBalance() >= bankAccountDto.getAmount()) {
+			bankAccountRepository.updateTheBankAccountBalance(user.getId(), bankAccount.getAvailableBalance() - bankAccountDto.getAmount());
 			return true;
 		} else {
 			return false;

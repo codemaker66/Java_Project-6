@@ -3,18 +3,24 @@ package com.paymybuddy.financialsystem.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.paymybuddy.financialsystem.dto.FriendDto;
+import com.paymybuddy.financialsystem.dto.UserCredentialsDto;
+import com.paymybuddy.financialsystem.entity.User;
+import com.paymybuddy.financialsystem.exceptions.PropertiesException;
 import com.paymybuddy.financialsystem.exceptions.ResourceException;
 import com.paymybuddy.financialsystem.model.Output;
+import com.paymybuddy.financialsystem.service.CheckService;
 import com.paymybuddy.financialsystem.service.FriendService;
 
 @RestController
@@ -22,21 +28,34 @@ public class FriendController {
 
 	@Autowired
 	private FriendService friendService;
+	@Autowired
+	private CheckService checkService;
 
 	/**
-	 * This method call the friendService to find friends by email.
+	 * This method call the friendService to find the user friends.
 	 * 
-	 * @param email represent the email of the user.
-	 * @return a list containing the friends of the user.
+	 * @param userCredentialsDto is an object of type UserCredentialsDto.
+	 * @param bindingResult is a general interface that represents binding results.
+	 * @return an object of type Output.
 	 */
-	@GetMapping(value = "/friends")
-	public Output getFriendsByEmail(@RequestParam(name = "email") String email) {
+	@PostMapping(value = "/friends")
+	public Output getFriends(@Valid @RequestBody UserCredentialsDto userCredentialsDto, BindingResult bindingResult) {
 
-		if (friendService.checkUserExistence(email) == null) {
-			throw new ResourceException(HttpStatus.BAD_REQUEST, "This email does not exist in the databse");
+		if (bindingResult.hasErrors()) {
+			List<String> details = new ArrayList<>();
+			for (FieldError fieldError : bindingResult.getFieldErrors()) {
+				details.add(fieldError.getDefaultMessage());
+			}
+			throw new PropertiesException(HttpStatus.BAD_REQUEST, "Validation failed", details);
 		}
 
-		Output output = friendService.findFriends(email);
+		User user = checkService.checkUserCredentials(userCredentialsDto.getEmail(), userCredentialsDto.getPassword());
+
+		if (user == null) {
+			throw new ResourceException(HttpStatus.BAD_REQUEST, "Invalid email or password");
+		}
+
+		Output output = friendService.findFriends(user);
 
 		if (output.getFriends() != null && !output.getFriends().isEmpty()) {
 			return output;
@@ -47,29 +66,40 @@ public class FriendController {
 	}
 
 	/**
-	 * This method call the friendService to add a friend.
+	 * This method call the friendService to link a new friend to the user account.
 	 * 
-	 * @param friendDto represent an object of type FriendDto.
+	 * @param friendDto is an object of type FriendDto.
+	 * @param bindingResult is a general interface that represents binding results.
 	 * @return a ResponseEntity if the request was successful.
 	 */
 	@PostMapping(value = "/friend")
-	public ResponseEntity<Output> addAFriend(@RequestBody FriendDto friendDto) {
+	public ResponseEntity<Output> addAFriend(@Valid @RequestBody FriendDto friendDto, BindingResult bindingResult) {
 
-		if (friendService.checkUserExistence(friendDto.getUserEmail()) == null) {
-			throw new ResourceException(HttpStatus.BAD_REQUEST, "Your email does not exist in the database");
+		if (bindingResult.hasErrors()) {
+			List<String> details = new ArrayList<>();
+			for (FieldError fieldError : bindingResult.getFieldErrors()) {
+				details.add(fieldError.getDefaultMessage());
+			}
+			throw new PropertiesException(HttpStatus.BAD_REQUEST, "Validation failed", details);
 		}
 
-		if (friendService.checkUserExistence(friendDto.getFriendEmail()) == null) {
+		User user = checkService.checkUserCredentials(friendDto.getEmail(), friendDto.getPassword());
+
+		User friend = checkService.checkFriendExistence(friendDto.getFriendEmail());
+
+		if (user == null) {
+			throw new ResourceException(HttpStatus.BAD_REQUEST, "Invalid email or password");
+		}
+
+		if (friend == null) {
 			throw new ResourceException(HttpStatus.BAD_REQUEST, "The friend email you have entered does not exist in the database");
 		}
 
-		if (friendService.addAFriend(friendDto)) {
+		if (friendService.addAFriend(user, friend)) {
 			Output output = new Output();
-			output.setMessage("The request was successfully made");
-			List<String> details = new ArrayList<>();
-			details.add("Your new friend is now linked to your account");
-			output.setDetails(details);
-			return ResponseEntity.status(HttpStatus.CREATED).body(output);
+			output.setStatus(HttpStatus.OK + "");
+			output.setMessage("Your new friend is now linked to your account");
+			return ResponseEntity.status(HttpStatus.OK).body(output);
 		} else {
 			throw new ResourceException(HttpStatus.BAD_REQUEST, "You have already linked this friend to your account");
 		}

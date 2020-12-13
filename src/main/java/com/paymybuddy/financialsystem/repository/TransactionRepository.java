@@ -6,14 +6,16 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.paymybuddy.financialsystem.model.Transaction;
+import com.paymybuddy.financialsystem.entity.Transaction;
 
+@Repository
 public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
 
 	/**
-	 * This method add the transaction information in the database.
+	 * This method add the transaction informations in the database.
 	 * 
 	 * @param userId represent the user id.
 	 * @param friendId represent the friend id.
@@ -25,17 +27,17 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
 	@Modifying
 	@Transactional
 	@Query(value = "INSERT INTO transactions (user_id, friend_id, description, amount, amount_after_commission, commission_amount) VALUES "
-			+ "(:userId, :friendId, :description, :amount, :amountAfterCommission, :commissionAmount)", nativeQuery = true)
-	void makeATransaction(@Param("userId") int userId, @Param("friendId") int friendId,
-			@Param("description") String description, @Param("amount") double amount,
-			@Param("amountAfterCommission") double amountAfterCommission,
-			@Param("commissionAmount") double commissionAmount);
+	+ "(:userId, :friendId, :description, ROUND(:amount, 2), ROUND(:amountAfterCommission, 2), ROUND(:commissionAmount, 2))", nativeQuery = true)
+	void makeATransaction(@Param("userId") int userId, @Param("friendId") int friendId,@Param("description") String description, 
+						  @Param("amount") double amount,
+						  @Param("amountAfterCommission") double amountAfterCommission,
+						  @Param("commissionAmount") double commissionAmount);
 
 	/**
-	 * This method retrieve the transactions history of a user.
+	 * This method retrieve the transaction history of a user.
 	 * 
 	 * @param id represent the id of a user.
-	 * @return a list containing the transactions history of a user.
+	 * @return a list containing the transaction history of a user.
 	 */
 	@Query(value = "SELECT * FROM transactions WHERE transactions.user_id = :id", nativeQuery = true)
 	List<Transaction> retrieveTransactionsHistory(int id);

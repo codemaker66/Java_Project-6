@@ -11,7 +11,7 @@ public class UserDto {
 	private String firstName;
 	@Length(min = 1, message = "lastName must have at least one character")
 	private String lastName;
-	@Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "email field cannot be empty")
+	@Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "email cannot be empty")
 	@Email(message = "email must be a valid email")
 	private String email;
 	@Length(min = 8, message = "password must have at least eight characters")

@@ -27,8 +27,10 @@ public class RegistrationController {
 	private RegistrationService registrationService;
 
 	/**
-	 * This method call the registrationService to register the user.
+	 * This method call the registrationService to register the user in the database.
 	 * 
+	 * @param userDto is an object of type UserDto.
+	 * @param bindingResult is a general interface that represents binding results.
 	 * @return a ResponseEntity if the request was successful.
 	 */
 	@PostMapping(value = "/signup")
@@ -39,15 +41,13 @@ public class RegistrationController {
 			for (FieldError fieldError : bindingResult.getFieldErrors()) {
 				details.add(fieldError.getDefaultMessage());
 			}
-			throw new PropertiesException(HttpStatus.BAD_REQUEST, "validation failed", details);
+			throw new PropertiesException(HttpStatus.BAD_REQUEST, "Validation failed", details);
 		}
 
 		if (registrationService.registerTheUser(userDto)) {
 			Output output = new Output();
-			output.setMessage("The request was successfully made");
-			List<String> details = new ArrayList<>();
-			details.add("You were successfully registered to the app");
-			output.setDetails(details);
+			output.setStatus(HttpStatus.CREATED + "");
+			output.setMessage("You were successfully registered to the app");
 			return ResponseEntity.status(HttpStatus.CREATED).body(output);
 		} else {
 			throw new ResourceException(HttpStatus.BAD_REQUEST, "A person with the same email already exist in the database");

@@ -5,41 +5,23 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.paymybuddy.financialsystem.dto.FriendDto;
+import com.paymybuddy.financialsystem.entity.User;
 import com.paymybuddy.financialsystem.model.Output;
-import com.paymybuddy.financialsystem.model.User;
 import com.paymybuddy.financialsystem.repository.FriendRepository;
-import com.paymybuddy.financialsystem.repository.UserRepository;
 
 @Service
 public class FriendService {
 
 	@Autowired
 	private FriendRepository friendRepository;
-	@Autowired
-	private UserRepository userRepository;
-
-	/**
-	 * This method call the userRepository to check whether the user exist in the database.
-	 * 
-	 * @param email represent the email of the user.
-	 * @return true if the user exist in the database.
-	 */
-	public User checkUserExistence(String email) {
-
-		return userRepository.retrieveUserByEmail(email);
-
-	}
 
 	/**
 	 * This method call the friendRepository to retrieve the friends of a user.
 	 * 
-	 * @param email represent the email of a user.
-	 * @return a list of users.
+	 * @param user is an object of type User.
+	 * @return an object of type Output.
 	 */
-	public Output findFriends(String email) {
-
-		User user = userRepository.retrieveUserByEmail(email);
+	public Output findFriends(User user) {
 
 		Output output = new Output();
 
@@ -51,16 +33,13 @@ public class FriendService {
 	}
 
 	/**
-	 * This method call the friendRepository to add a friend to the user.
+	 * This method call the friendRepository to link a friend to the user account.
 	 * 
-	 * @param friendDto represent an object of type FriendDto.
+	 * @param user is an object of type User.
+	 * @param friend is an object of type User.
 	 * @return true if the process was successful.
 	 */
-	public boolean addAFriend(FriendDto friendDto) {
-
-		User user = userRepository.retrieveUserByEmail(friendDto.getUserEmail());
-
-		User friend = userRepository.retrieveUserByEmail(friendDto.getFriendEmail());
+	public boolean addAFriend(User user, User friend) {
 
 		if (friendRepository.checkIfAlreadyFriends(user.getId(), friend.getId()) == null) {
 			friendRepository.addAFriend(user.getId(), friend.getId());

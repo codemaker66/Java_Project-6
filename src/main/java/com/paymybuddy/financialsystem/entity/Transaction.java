@@ -1,4 +1,4 @@
-package com.paymybuddy.financialsystem.model;
+package com.paymybuddy.financialsystem.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -18,12 +19,18 @@ public class Transaction {
 	@JsonIgnore
 	private int id;
 	@Column(name = "user_id")
+	@JsonIgnore
 	private int userId;
 	@Column(name = "friend_id")
+	@JsonIgnore
 	private int friendId;
-	@Column(name = "description")
+	@Transient
+	private String friendFirstName;
+	@Transient
+	private String friendLastName;
+	@Transient
+	private String friendEmail;
 	private String description;
-	@Column(name = "amount")
 	private double amount;
 	@Column(name = "amount_after_commission")
 	private double amountAfterCommission;
@@ -54,6 +61,30 @@ public class Transaction {
 		this.friendId = friendId;
 	}
 
+	public String getFriendFirstName() {
+		return friendFirstName;
+	}
+
+	public void setFriendFirstName(String friendFirstName) {
+		this.friendFirstName = friendFirstName;
+	}
+
+	public String getFriendLastName() {
+		return friendLastName;
+	}
+
+	public void setFriendLastName(String friendLastName) {
+		this.friendLastName = friendLastName;
+	}
+
+	public String getFriendEmail() {
+		return friendEmail;
+	}
+
+	public void setFriendEmail(String friendEmail) {
+		this.friendEmail = friendEmail;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -74,8 +105,8 @@ public class Transaction {
 		return amountAfterCommission;
 	}
 
-	public void setAmountAfterCommission(double amountAfterCommision) {
-		this.amountAfterCommission = amountAfterCommision;
+	public void setAmountAfterCommission(double amountAfterCommission) {
+		this.amountAfterCommission = amountAfterCommission;
 	}
 
 	public double getCommissionAmount() {
@@ -85,7 +116,5 @@ public class Transaction {
 	public void setCommissionAmount(double commissionAmount) {
 		this.commissionAmount = commissionAmount;
 	}
-	
-	
 
 }

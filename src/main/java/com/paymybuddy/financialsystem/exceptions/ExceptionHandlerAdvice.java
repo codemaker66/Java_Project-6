@@ -28,7 +28,7 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
 	 * @return a ResponseEntity containing the HttpStatus with a message and details.
 	 */
 	@ExceptionHandler(PropertiesException.class)
-	public ResponseEntity<Object> handlePropertiesException(PropertiesException e) {
+	public ResponseEntity<Output> handlePropertiesException(PropertiesException e) {
 		Output output = new Output();
 		output.setMessage(e.getMessage());
 		output.setDetails(e.getDetails());

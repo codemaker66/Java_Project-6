@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.paymybuddy.financialsystem.model.User;
+import com.paymybuddy.financialsystem.entity.User;
 
+@Repository
 public interface FriendRepository extends CrudRepository<User, Integer> {
 
 	/**
@@ -25,7 +27,7 @@ public interface FriendRepository extends CrudRepository<User, Integer> {
 	 * This method add a friend to the user in the database.
 	 * 
 	 * @param userId represent the id of the user.
-	 * @param friendId represent the id of the user friend.
+	 * @param friendId represent the id of the friend.
 	 */
 	@Modifying
 	@Transactional
@@ -36,7 +38,7 @@ public interface FriendRepository extends CrudRepository<User, Integer> {
 	 * This method check if the user already linked this friend to his account.
 	 * 
 	 * @param userId represent the id of the user.
-	 * @param friendId represent the id of the user friend.
+	 * @param friendId represent the id of the friend.
 	 * @return an object of type User that represent the friend of the user.
 	 */
 	@Query(value = "SELECT * FROM users JOIN friends ON users.id = friends.friend_id WHERE friends.user_id = :userId and friends.friend_id = :friendId", nativeQuery = true)

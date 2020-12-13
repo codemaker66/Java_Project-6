@@ -1,4 +1,4 @@
-package com.paymybuddy.financialsystem.model;
+package com.paymybuddy.financialsystem.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

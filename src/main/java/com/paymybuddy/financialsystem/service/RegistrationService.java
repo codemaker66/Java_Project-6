@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.financialsystem.dto.UserDto;
-import com.paymybuddy.financialsystem.model.User;
+import com.paymybuddy.financialsystem.entity.User;
 import com.paymybuddy.financialsystem.repository.BankAccountRepository;
 import com.paymybuddy.financialsystem.repository.RegistrationRepository;
 import com.paymybuddy.financialsystem.repository.UserRepository;
@@ -27,10 +27,10 @@ public class RegistrationService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	/**
-	 * This method call the registrationRepository to save the user in the database
-	 * then call the bankAccountRepository to create it's bank account.
+	 * This method call the registrationRepository to save the user in the database.
 	 * 
-	 * @param userDto represent an object of type UserDto.
+	 * @param userDto is an object of type UserDto.
+	 * @return true if the process was successful.
 	 */
 	public boolean registerTheUser(UserDto userDto) {
 
@@ -46,7 +46,7 @@ public class RegistrationService {
 
 			User userInfo = userRepository.retrieveUserByEmail(user.getEmail());
 
-			bankAccountRepository.addBankAccount(userInfo.getId());
+			bankAccountRepository.createABankAccount(userInfo.getId());
 
 			return true;
 

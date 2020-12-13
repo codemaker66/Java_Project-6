@@ -4,16 +4,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-public class FriendDto {
+public class UserCredentialsDto {
 
 	@Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "email cannot be empty")
 	@Email(message = "email must be a valid email")
 	private String email;
 	@NotNull(message = "password can not be empty")
 	private String password;
-	@Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "friendEmail cannot be empty")
-	@Email(message = "friendEmail must be a valid email")
-	private String friendEmail;
 
 	public String getEmail() {
 		return email;
@@ -29,14 +26,6 @@ public class FriendDto {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getFriendEmail() {
-		return friendEmail;
-	}
-
-	public void setFriendEmail(String friendEmail) {
-		this.friendEmail = friendEmail;
 	}
 
 }
