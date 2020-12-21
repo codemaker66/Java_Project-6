@@ -41,4 +41,12 @@ public interface BankAccountRepository extends CrudRepository<BankAccount, Integ
 	@Transactional
 	@Query(value = "UPDATE bank_account SET available_balance = ROUND(:newBalance, 2) WHERE bank_account.user_id = :id", nativeQuery = true)
 	void updateTheBankAccountBalance(@Param("id") int id, @Param("newBalance") double newBalance);
+	
+	/**
+	 * This method truncate the bank_account table from the database.
+	 */
+	@Modifying
+	@Transactional
+	@Query(value = "TRUNCATE TABLE bank_account", nativeQuery = true)
+	void truncateBankAccount();
 }

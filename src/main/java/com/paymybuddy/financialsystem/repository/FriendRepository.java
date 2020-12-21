@@ -43,5 +43,13 @@ public interface FriendRepository extends CrudRepository<User, Integer> {
 	 */
 	@Query(value = "SELECT * FROM users JOIN friends ON users.id = friends.friend_id WHERE friends.user_id = :userId and friends.friend_id = :friendId", nativeQuery = true)
 	User checkIfAlreadyFriends(@Param("userId") int userId, @Param("friendId") int friendId);
+	
+	/**
+	 * This method truncate the friends table from the database.
+	 */
+	@Modifying
+	@Transactional
+	@Query(value = "TRUNCATE TABLE friends", nativeQuery = true)
+	void truncateFriends();
 
 }

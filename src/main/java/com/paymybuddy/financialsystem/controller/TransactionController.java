@@ -63,7 +63,7 @@ public class TransactionController {
 
 		if (transactionService.makeATransaction(user, friend, transactionDto)) {
 			Output output = new Output();
-			output.setStatus(HttpStatus.CREATED + "");
+			output.setStatus(HttpStatus.CREATED);
 			output.setMessage("Your transaction was successfully made");
 			return ResponseEntity.status(HttpStatus.CREATED).body(output);
 		} else {
@@ -96,7 +96,7 @@ public class TransactionController {
 			throw new ResourceException(HttpStatus.BAD_REQUEST, "Invalid email or password");
 		}
 
-		Output output = transactionService.findTransactionsHistory(user);
+		Output output = transactionService.findTransactionHistory(user);
 
 		if (output.getTransactionHistory() != null && !output.getTransactionHistory().isEmpty()) {
 			return output;

@@ -1,9 +1,11 @@
 package com.paymybuddy.financialsystem.repository;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.paymybuddy.financialsystem.entity.User;
 
@@ -27,5 +29,29 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	 */
 	@Query(value = "SELECT * FROM users WHERE users.id = :id", nativeQuery = true)
 	User retrieveUserById(@Param("id") int id);
+	
+	/**
+	 * This method truncate the users table from the database.
+	 */
+	@Modifying
+	@Transactional
+	@Query(value = "TRUNCATE TABLE users", nativeQuery = true)
+	void truncateUsers();
+	
+	/**
+	 * This method disable foreign key checks for the users table.
+	 */
+	@Modifying
+	@Transactional
+	@Query(value = "SET foreign_key_checks = 0;", nativeQuery = true)
+	void disableForeignKeyChecks();
+	
+	/**
+	 * This method enable foreign key checks for the users table.
+	 */
+	@Modifying
+	@Transactional
+	@Query(value = "SET foreign_key_checks = 1;", nativeQuery = true)
+	void enableForeignKeyChecks();
 
 }

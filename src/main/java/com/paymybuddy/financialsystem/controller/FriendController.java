@@ -97,7 +97,7 @@ public class FriendController {
 
 		if (friendService.addAFriend(user, friend)) {
 			Output output = new Output();
-			output.setStatus(HttpStatus.OK + "");
+			output.setStatus(HttpStatus.OK);
 			output.setMessage("Your new friend is now linked to your account");
 			return ResponseEntity.status(HttpStatus.OK).body(output);
 		} else {

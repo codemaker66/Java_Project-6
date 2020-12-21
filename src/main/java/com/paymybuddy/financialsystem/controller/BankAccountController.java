@@ -86,7 +86,7 @@ public class BankAccountController {
 
 		bankAccountService.addMoney(user, bankAccountDto);
 		Output output = new Output();
-		output.setStatus(HttpStatus.OK + "");
+		output.setStatus(HttpStatus.OK);
 		output.setMessage("You have successfully added money to your account");
 		return ResponseEntity.status(HttpStatus.OK).body(output);
 	}
@@ -117,7 +117,7 @@ public class BankAccountController {
 
 		if (bankAccountService.getMoney(user, bankAccountDto)) {
 			Output output = new Output();
-			output.setStatus(HttpStatus.OK + "");
+			output.setStatus(HttpStatus.OK);
 			output.setMessage("You have successfully retrieved " + bankAccountDto.getAmount() + " euro from your account");
 			return ResponseEntity.status(HttpStatus.OK).body(output);
 		} else {

@@ -40,6 +40,14 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
 	 * @return a list containing the transaction history of a user.
 	 */
 	@Query(value = "SELECT * FROM transactions WHERE transactions.user_id = :id", nativeQuery = true)
-	List<Transaction> retrieveTransactionsHistory(int id);
+	List<Transaction> retrieveTransactionHistory(int id);
+	
+	/**
+	 * This method truncate the transactions table from the database.
+	 */
+	@Modifying
+	@Transactional
+	@Query(value = "TRUNCATE TABLE transactions", nativeQuery = true)
+	void truncateTransactions();
 
 }

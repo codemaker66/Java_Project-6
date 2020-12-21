@@ -46,7 +46,7 @@ public class RegistrationController {
 
 		if (registrationService.registerTheUser(userDto)) {
 			Output output = new Output();
-			output.setStatus(HttpStatus.CREATED + "");
+			output.setStatus(HttpStatus.CREATED);
 			output.setMessage("You were successfully registered to the app");
 			return ResponseEntity.status(HttpStatus.CREATED).body(output);
 		} else {

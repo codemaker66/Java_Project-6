@@ -56,12 +56,12 @@ public class TransactionService {
 	/**
 	 * This method call the transactionRepository to find the transaction history.
 	 * 
-	 * @param user is an object of type User
+	 * @param user is an object of type User.
 	 * @return an object of type Output.
 	 */
-	public Output findTransactionsHistory(User user) {
+	public Output findTransactionHistory(User user) {
 
-		List<Transaction> list = transactionRepository.retrieveTransactionsHistory(user.getId());
+		List<Transaction> list = transactionRepository.retrieveTransactionHistory(user.getId());
 
 		List<Transaction> transactionHistory = new ArrayList<>();
 
