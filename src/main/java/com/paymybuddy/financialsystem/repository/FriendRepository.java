@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +20,7 @@ public interface FriendRepository extends CrudRepository<User, Integer> {
 	 * @return a list containing all the friends of a user.
 	 */
 	@Query(value = "SELECT * FROM users JOIN friends ON users.id = friends.friend_id WHERE friends.user_id = :id", nativeQuery = true)
-	List<User> retrieveFriendsByUserId(@Param("id") int id);
+	List<User> retrieveFriendsByUserId(int id);
 
 	/**
 	 * This method add a friend to the user in the database.
@@ -32,7 +31,7 @@ public interface FriendRepository extends CrudRepository<User, Integer> {
 	@Modifying
 	@Transactional
 	@Query(value = "INSERT INTO friends (user_id, friend_id) VALUES (:userId, :friendId)", nativeQuery = true)
-	void addAFriend(@Param("userId") int userId, @Param("friendId") int friendId);
+	void addAFriend(int userId, int friendId);
 
 	/**
 	 * This method check if the user already linked this friend to his account.
@@ -42,7 +41,7 @@ public interface FriendRepository extends CrudRepository<User, Integer> {
 	 * @return an object of type User that represent the friend of the user.
 	 */
 	@Query(value = "SELECT * FROM users JOIN friends ON users.id = friends.friend_id WHERE friends.user_id = :userId and friends.friend_id = :friendId", nativeQuery = true)
-	User checkIfAlreadyFriends(@Param("userId") int userId, @Param("friendId") int friendId);
+	User checkIfAlreadyFriends(int userId, int friendId);
 	
 	/**
 	 * This method truncate the friends table from the database.

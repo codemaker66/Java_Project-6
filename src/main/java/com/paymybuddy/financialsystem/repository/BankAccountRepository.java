@@ -3,7 +3,6 @@ package com.paymybuddy.financialsystem.repository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,7 @@ public interface BankAccountRepository extends CrudRepository<BankAccount, Integ
 	@Modifying
 	@Transactional
 	@Query(value = "INSERT INTO bank_account (user_id, available_balance) VALUES (:id, 0)", nativeQuery = true)
-	void createABankAccount(@Param("id") int id);
+	void createABankAccount(int id);
 
 	/**
 	 * This method retrieve the available balance of the user bank account from the database.
@@ -29,7 +28,7 @@ public interface BankAccountRepository extends CrudRepository<BankAccount, Integ
 	 * @return an object of type BankAccount.
 	 */
 	@Query(value = "SELECT * FROM bank_account WHERE bank_account.user_id = :id", nativeQuery = true)
-	BankAccount retrieveAvailableBalance(@Param("id") int id);
+	BankAccount retrieveAvailableBalance(int id);
 
 	/**
 	 * This method add the money to the user bank account in the database.
@@ -40,7 +39,7 @@ public interface BankAccountRepository extends CrudRepository<BankAccount, Integ
 	@Modifying
 	@Transactional
 	@Query(value = "UPDATE bank_account SET available_balance = ROUND(:newBalance, 2) WHERE bank_account.user_id = :id", nativeQuery = true)
-	void updateTheBankAccountBalance(@Param("id") int id, @Param("newBalance") double newBalance);
+	void updateTheBankAccountBalance(int id, double newBalance);
 	
 	/**
 	 * This method truncate the bank_account table from the database.

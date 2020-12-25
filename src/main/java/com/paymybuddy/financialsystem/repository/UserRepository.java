@@ -3,7 +3,6 @@ package com.paymybuddy.financialsystem.repository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +18,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	 * @return an object of type User.
 	 */
 	@Query(value = "SELECT * FROM users WHERE users.email = :email", nativeQuery = true)
-	User retrieveUserByEmail(@Param("email") String email);
+	User retrieveUserByEmail(String email);
 
 	/**
 	 * This method retrieve a user by his id.
@@ -28,7 +27,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	 * @return an object of type User.
 	 */
 	@Query(value = "SELECT * FROM users WHERE users.id = :id", nativeQuery = true)
-	User retrieveUserById(@Param("id") int id);
+	User retrieveUserById(int id);
 	
 	/**
 	 * This method truncate the users table from the database.
@@ -43,7 +42,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	 */
 	@Modifying
 	@Transactional
-	@Query(value = "SET foreign_key_checks = 0;", nativeQuery = true)
+	@Query(value = "SET foreign_key_checks = 0", nativeQuery = true)
 	void disableForeignKeyChecks();
 	
 	/**
@@ -51,7 +50,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	 */
 	@Modifying
 	@Transactional
-	@Query(value = "SET foreign_key_checks = 1;", nativeQuery = true)
+	@Query(value = "SET foreign_key_checks = 1", nativeQuery = true)
 	void enableForeignKeyChecks();
 
 }

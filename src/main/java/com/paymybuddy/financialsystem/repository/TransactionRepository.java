@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,10 +27,7 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
 	@Transactional
 	@Query(value = "INSERT INTO transactions (user_id, friend_id, description, amount, amount_after_commission, commission_amount) VALUES "
 	+ "(:userId, :friendId, :description, ROUND(:amount, 2), ROUND(:amountAfterCommission, 2), ROUND(:commissionAmount, 2))", nativeQuery = true)
-	void makeATransaction(@Param("userId") int userId, @Param("friendId") int friendId,@Param("description") String description, 
-						  @Param("amount") double amount,
-						  @Param("amountAfterCommission") double amountAfterCommission,
-						  @Param("commissionAmount") double commissionAmount);
+	void makeATransaction(int userId, int friendId, String description, double amount, double amountAfterCommission, double commissionAmount);
 
 	/**
 	 * This method retrieve the transaction history of a user.
