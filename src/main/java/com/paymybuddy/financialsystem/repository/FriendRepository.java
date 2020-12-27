@@ -23,7 +23,7 @@ public interface FriendRepository extends CrudRepository<User, Integer> {
 	List<User> retrieveFriendsByUserId(int id);
 
 	/**
-	 * This method add a friend to the user in the database.
+	 * This method add a friend to the user.
 	 * 
 	 * @param userId represent the id of the user.
 	 * @param friendId represent the id of the friend.
@@ -34,7 +34,7 @@ public interface FriendRepository extends CrudRepository<User, Integer> {
 	void addAFriend(int userId, int friendId);
 
 	/**
-	 * This method check if the user already linked this friend to his account.
+	 * This method check if the user have already linked this friend to his account.
 	 * 
 	 * @param userId represent the id of the user.
 	 * @param friendId represent the id of the friend.

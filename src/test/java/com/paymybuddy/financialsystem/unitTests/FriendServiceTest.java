@@ -18,7 +18,7 @@ import com.paymybuddy.financialsystem.repository.FriendRepository;
 import com.paymybuddy.financialsystem.service.FriendService;
 
 @WebMvcTest(FriendService.class)
-@TestPropertySource(properties = {"spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration" })
+@TestPropertySource(properties = {"spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration"})
 class FriendServiceTest {
 
 	@MockBean

@@ -15,7 +15,7 @@ import com.paymybuddy.financialsystem.service.BankAccountService;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @WebMvcTest(BankAccountService.class)
-@TestPropertySource(properties = {"spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration" })
+@TestPropertySource(properties = {"spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration"})
 class BankAccountServiceTest {
 
 	@MockBean

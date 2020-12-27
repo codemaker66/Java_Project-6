@@ -1,7 +1,7 @@
 package com.paymybuddy.financialsystem.dto;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 public class FriendDto {
@@ -9,7 +9,7 @@ public class FriendDto {
 	@Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "email cannot be empty")
 	@Email(message = "email must be a valid email")
 	private String email;
-	@NotNull(message = "password can not be empty")
+	@NotEmpty(message = "password can not be empty")
 	private String password;
 	@Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "friendEmail cannot be empty")
 	@Email(message = "friendEmail must be a valid email")

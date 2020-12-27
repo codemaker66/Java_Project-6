@@ -19,8 +19,8 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
 	 * @param userId represent the user id.
 	 * @param friendId represent the friend id.
 	 * @param description represent the description of the transaction given by the user.
-	 * @param amount represent the amount given to the friend by the user.
-	 * @param amountAfterCommission represent that amount plus the commission given by the app.
+	 * @param amount represent the amount of money given to the friend by the user.
+	 * @param amountAfterCommission represent the amount plus the commission given by the app.
 	 * @param commissionAmount represent the commission given by the app.
 	 */
 	@Modifying

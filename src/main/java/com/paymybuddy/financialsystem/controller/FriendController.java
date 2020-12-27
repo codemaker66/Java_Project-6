@@ -28,6 +28,7 @@ public class FriendController {
 
 	@Autowired
 	private FriendService friendService;
+	
 	@Autowired
 	private CheckService checkService;
 
@@ -60,7 +61,7 @@ public class FriendController {
 		if (output.getFriends() != null && !output.getFriends().isEmpty()) {
 			return output;
 		} else {
-			throw new ResourceException(HttpStatus.BAD_REQUEST, "You don't have any linked friends with your account");
+			throw new ResourceException(HttpStatus.BAD_REQUEST, "You don't have any linked friends on your account");
 		}
 
 	}

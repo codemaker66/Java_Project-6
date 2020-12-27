@@ -112,7 +112,7 @@ class BankAccountControllerIT {
 
 	@Test
 	@Order(2)
-	void retrieveAvailableBalance() throws JsonProcessingException {
+	void getAvailableBalance() throws JsonProcessingException {
 
 		// Given
 		UserCredentialsDto userCredentialsDto = new UserCredentialsDto();

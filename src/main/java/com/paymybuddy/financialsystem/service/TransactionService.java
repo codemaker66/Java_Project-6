@@ -20,8 +20,10 @@ public class TransactionService {
 
 	@Autowired
 	private TransactionRepository transactionRepository;
+	
 	@Autowired
 	private BankAccountRepository bankAccountRepository;
+	
 	@Autowired
 	private UserRepository userRepository;
 

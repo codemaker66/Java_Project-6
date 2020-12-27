@@ -28,6 +28,7 @@ public class TransactionController {
 
 	@Autowired
 	private TransactionService transactionService;
+	
 	@Autowired
 	private CheckService checkService;
 
@@ -73,7 +74,7 @@ public class TransactionController {
 	}
 
 	/**
-	 * This method call the transactionService to find the user transactions history.
+	 * This method call the transactionService to find the user transaction history.
 	 * 
 	 * @param userCredentialsDto is an object of type UserCredentialsDto.
 	 * @param bindingResult is a general interface that represents binding results.

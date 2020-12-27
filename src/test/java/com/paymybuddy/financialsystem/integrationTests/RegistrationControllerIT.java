@@ -3,11 +3,8 @@ package com.paymybuddy.financialsystem.integrationTests;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -27,7 +24,6 @@ import com.paymybuddy.financialsystem.model.Output;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:test.properties")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RegistrationControllerIT {
 
@@ -51,7 +47,6 @@ class RegistrationControllerIT {
 	}
 
 	@Test
-	@Order(1)
 	void signUp() throws JsonProcessingException {
 
 		// Given

@@ -2,7 +2,7 @@ package com.paymybuddy.financialsystem.dto;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 public class BankAccountDto {
@@ -10,9 +10,8 @@ public class BankAccountDto {
 	@Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "email cannot be empty")
 	@Email(message = "email must be a valid email")
 	private String email;
-	@NotNull(message = "password can not be empty")
+	@NotEmpty(message = "password can not be empty")
 	private String password;
-	@NotNull(message = "amount can not be empty")
 	@DecimalMin(value = "0.01", message = "amount minimum value is 0.01")
 	private double amount;
 

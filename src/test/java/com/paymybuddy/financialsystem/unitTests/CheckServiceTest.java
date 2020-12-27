@@ -15,7 +15,7 @@ import com.paymybuddy.financialsystem.repository.UserRepository;
 import com.paymybuddy.financialsystem.service.CheckService;
 
 @WebMvcTest(CheckService.class)
-@TestPropertySource(properties = {"spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration" })
+@TestPropertySource(properties = {"spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration"})
 class CheckServiceTest {
 
 	@MockBean

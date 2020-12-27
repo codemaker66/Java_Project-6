@@ -22,7 +22,7 @@ public interface BankAccountRepository extends CrudRepository<BankAccount, Integ
 	void createABankAccount(int id);
 
 	/**
-	 * This method retrieve the available balance of the user bank account from the database.
+	 * This method retrieve the available balance from the user bank account.
 	 * 
 	 * @param id represent the id of the user.
 	 * @return an object of type BankAccount.
@@ -31,7 +31,7 @@ public interface BankAccountRepository extends CrudRepository<BankAccount, Integ
 	BankAccount retrieveAvailableBalance(int id);
 
 	/**
-	 * This method add the money to the user bank account in the database.
+	 * This method add the money to the user bank account.
 	 * 
 	 * @param id represent the id of the user.
 	 * @param newBalance represent the new balance for the user bank account.

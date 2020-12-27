@@ -12,15 +12,16 @@ public class CheckService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	/**
-	 * This method call the userRepository to check whether the user exist in the database.
+	 * This method call the userRepository to check if the user exist in the database.
 	 * 
 	 * @param email represent the email of the user.
 	 * @param password represent the password of the user.
-	 * @return all the user info if he exist and it's password is the same as the one in the database.
+	 * @return all the user info if he exist and if his password is the same as the one in the database.
 	 */
 	public User checkUserCredentials(String email, String password) {
 
@@ -37,7 +38,7 @@ public class CheckService {
 	}
 
 	/**
-	 * This method call the userRepository to check whether the friend exist in the database.
+	 * This method call the userRepository to check if the friend exist in the database.
 	 * 
 	 * @param friendEmail represent the email of the friend.
 	 * @return an object of type User.

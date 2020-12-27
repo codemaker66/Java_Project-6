@@ -127,7 +127,7 @@ class TransactionControllerIT {
 
 	@Test
 	@Order(2)
-	void retrieveTransactionsHistory() throws JsonProcessingException {
+	void getTransactionHistory() throws JsonProcessingException {
 
 		// Given
 		UserCredentialsDto userCredentialsDto = new UserCredentialsDto();
